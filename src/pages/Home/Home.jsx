@@ -2,6 +2,8 @@
 import axios from "axios";
 import "./Home.css";
 import { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+import generateDocument from "../CreateDocx/generateDocument";
 
 const Home = () => {
   const [details, setDetails] = useState([]);
@@ -9,6 +11,8 @@ const Home = () => {
   const [fifthSubjects, setFifthSubjects] = useState([]);
   const [sixthSubjects, setSixthSubjects] = useState([]);
   const [selectedSemester, setSelectedSemester] = useState("fifth"); // Initialize to "fifth"
+
+  
 
   // api call here for student details
   const fetchDetails = async () => {
@@ -45,10 +49,10 @@ const Home = () => {
     fetchDetails();
     fetchSubjects();
   }, []);
-//   console.log(details);
-//   console.log(semesters);
-//   console.log(fifthSubjects);
-//   console.log(sixthSubjects);
+  // console.log(details);
+  //   console.log(semesters);
+  // console.log(fifthSubjects);
+  //   console.log(sixthSubjects);
 
   //function to handle semester change
   const handleSemesterChange = (event) => {
@@ -80,14 +84,68 @@ const Home = () => {
     ));
   };
 
-  const handleFormData = async () => {
-    alert("yes");
-    // const response = await axios.post("")
+  // const navigate = useNavigate();
+  const handleFormData = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+
+    // Find the corresponding student details based on the selected name
+    const foundStudent = details.find((student) => student.name === data.name);
+
+    if (foundStudent) {
+      // Update the data object with the found student's details
+      data.rollnumber = foundStudent.id;
+      data.name =
+        foundStudent.gender === "male"
+          ? `Mr. ${data.name}`
+          : `Ms. ${data.name}`;
+
+      // Function to find the section based on the last two digits of the roll number
+      const getSection = (rollNumber) => {
+        const lastTwoDigits = parseInt(rollNumber.toString().slice(-2));
+
+        if (lastTwoDigits >= 1 && lastTwoDigits <= 33) {
+          return "Section A";
+        } else if (lastTwoDigits >= 34 && lastTwoDigits <= 66) {
+          return "Section B";
+        } else if (lastTwoDigits === 67) {
+          return "Section A";
+        } else {
+          return "";
+        }
+      };
+
+      // Assign the section based on the roll number
+      data.section = getSection(data.rollnumber);
+
+      // Determine semester-specific details
+      const semesterDetails =
+        data.semester === "fifth" ? fifthSubjects : sixthSubjects;
+      const foundSubject = semesterDetails.find(
+        (sub) => sub.code === data.subject
+      );
+
+      if (foundSubject) {
+        data.semester = data.semester === "fifth" ? "5th" : "6th";
+        data.fullSubjectName = foundSubject.fullName;
+        data.teacherName = foundSubject.teacher;
+      }
+
+      // console.log(data);
+
+      // Call the function to generate the document
+      generateDocument(data);
+    }
   };
+
   return (
     <>
       <div className="flex justify-center items-center h-screen bg-slate-100">
-        <form className="flex flex-col divide-y gap-2 w-1/3 border rounded-lg text-center drop-shadow-md bg-white border-gray-300 text-gray-700">
+        <form
+          onSubmit={handleFormData}
+          className="flex flex-col divide-y gap-2 w-[450px] border rounded-lg text-center drop-shadow-md bg-white border-gray-300 text-gray-700"
+        >
           <h1 className="flex items-center justify-center h-12 pt-2 font-bold text-xl text-blue-500">
             Front Page Generator
           </h1>
@@ -130,10 +188,9 @@ const Home = () => {
               </label>
             </div>
           </div>
+
           <div className="form-group flex h-12 items-center w-full pt-2 px-2">
-            <label htmlFor="name" className="w-1/5 label">
-              Name:
-            </label>
+            <label className="w-1/5 label">Name:</label>
             <select
               id="name"
               name="name"
@@ -159,11 +216,13 @@ const Home = () => {
               Lab no:
             </label>
             <input
-              className="shadow-sm form-input flex-grow border h-10 rounded-sm hover:border-gray-500 hover:border px-2 outline-0"
-              type="text"
+              className="shadow-sm form-input flex-grow border border-gray-300 h-10 rounded-sm hover:border hover:border-slate-200 px-2 outline-0 focus:ring focus:ring-slate-100"
+              type="number"
               name="labnumber"
               id="labnumber"
-              value="<%= labNumber %>"
+              placeholder="Enter Lab number"
+              autoComplete="false"
+              required
             />
           </div>
 
@@ -173,7 +232,6 @@ const Home = () => {
               className="group relative overflow-hidden text-center font-normal bg-[#2856fb] text-white rounded-lg py-2 px-4 my-2 shadow-lg hover:scale-95"
               type="submit"
               id="submitBtn"
-              onClick={handleFormData}
             >
               Generate Front Page
               <div className="absolute inset-0 h-full w-full scale-0 rounded-lg transition-all duration-300 group-hover:scale-100 group-hover:bg-black/20"></div>
