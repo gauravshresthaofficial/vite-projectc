@@ -8,7 +8,7 @@ function loadFile(url, callback) {
 }
 
 const generateDocument = (data) => {
-  alert("YES")
+  // alert("YES")
   loadFile("/template2.docx", function (error, content) {
     if (error) {
       throw error;

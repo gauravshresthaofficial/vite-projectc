@@ -4,41 +4,43 @@ import "./Home.css";
 import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import generateDocument from "../CreateDocx/generateDocument";
-
+import data from "../../assets/data";
 const Home = () => {
   const [details, setDetails] = useState([]);
   const [semesters, setSemesters] = useState([]);
   const [fifthSubjects, setFifthSubjects] = useState([]);
   const [sixthSubjects, setSixthSubjects] = useState([]);
   const [selectedSemester, setSelectedSemester] = useState("fifth"); // Initialize to "fifth"
-
-  
+  const {semestersData, studentsData} = data()
 
   // api call here for student details
   const fetchDetails = async () => {
     try {
-      const response = await axios.get(
-        "http://saurav1014.mooo.com/api/nameList/nameLists.php"
-      );
+      // const response = await axios.get(
+      //   "http://saurav1014.mooo.com/api/nameList/nameLists.php"
+      // );
+      const response = studentsData
       if (response.status == 200) {
         // console.log(response.data)
-        setDetails(response.data.details);
+        setDetails(response.details);
       }
     } catch (error) {
       alert("Something is wrong!");
+      console.log(error)
     }
   };
 
   //api call here for semester and subjects details
   const fetchSubjects = async () => {
     try {
-      const response = await axios.get(
-        "http://saurav1014.mooo.com/api/semesters/semesters.php"
-      );
+      // const response = await axios.get(
+      //   "http://saurav1014.mooo.com/api/semesters/semesters.php"
+      // );
+      const response = semestersData
       if (response.status == 200) {
-        setSemesters(response.data.semesters);
-        setFifthSubjects(response.data.semesters.fifth);
-        setSixthSubjects(response.data.semesters.sixth);
+        setSemesters(response.semesters);
+        setFifthSubjects(response.semesters.fifth);
+        setSixthSubjects(response.semesters.sixth);
       }
     } catch (error) {
       alert("Something went wrong!");
