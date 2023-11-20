@@ -65,6 +65,7 @@ const Home = () => {
   const handleSemesterChange = (event) => {
     setSelectedSemester(event.target.value);
     setHideLabNumberInput(false);
+    setShowPopup(false)
   };
 
   //function to hide the lab number input
