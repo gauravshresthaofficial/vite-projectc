@@ -1,355 +1,356 @@
 const data = () => {
   const studentsData = {
-    "status": 200,
-    "details": [
+    status: 200,
+    details: [
       {
-        "id": "020BIM001",
-        "name": "AAYUSHMA SHAKYA",
-        "gender": "female"
+        id: "020BIM001",
+        name: "Aayushma Shakya",
+        gender: "female",
       },
       {
-        "id": "020BIM002",
-        "name": "ADITYA UPRETI",
-        "gender": "male"
+        id: "020BIM002",
+        name: "Aditya Upreti",
+        gender: "male",
       },
       {
-        "id": "020BIM003",
-        "name": "ANEE KHATRI CHHETRI",
-        "gender": "female"
+        id: "020BIM003",
+        name: "Anee Khatri Chhetri",
+        gender: "female",
       },
       {
-        "id": "020BIM004",
-        "name": "ANISH GORKHALI",
-        "gender": "male"
+        id: "020BIM004",
+        name: "Anish Gorkhali",
+        gender: "male",
       },
       {
-        "id": "020BIM005",
-        "name": "ANKITA RIMAL",
-        "gender": "female"
+        id: "020BIM005",
+        name: "Ankita Rimal",
+        gender: "female",
       },
       {
-        "id": "020BIM006",
-        "name": "AVISHEK DHAKAL",
-        "gender": "male"
+        id: "020BIM006",
+        name: "Avishek Dhakal",
+        gender: "male",
       },
       {
-        "id": "020BIM007",
-        "name": "BHINTUNA SHAKYA",
-        "gender": "female"
+        id: "020BIM007",
+        name: "Bhintuna Shakya",
+        gender: "female",
       },
       {
-        "id": "020BIM008",
-        "name": "BIBEK KHANAL",
-        "gender": "male"
+        id: "020BIM008",
+        name: "Bibek Khanal",
+        gender: "male",
       },
       {
-        "id": "020BIM009",
-        "name": "BIKASH DESHAR",
-        "gender": "male"
+        id: "020BIM009",
+        name: "Bikash Deshar",
+        gender: "male",
       },
       {
-        "id": "020BIM010",
-        "name": "BIRAJ REGMI",
-        "gender": "male"
+        id: "020BIM010",
+        name: "Biraj Regmi",
+        gender: "male",
       },
       {
-        "id": "020BIM011",
-        "name": "CHIRAYU PRASAI",
-        "gender": "male"
+        id: "020BIM011",
+        name: "Chirayu Prasai",
+        gender: "male",
       },
       {
-        "id": "020BIM012",
-        "name": "DIKSHYA SINGH",
-        "gender": "female"
+        id: "020BIM012",
+        name: "Dikshya Singh",
+        gender: "female",
       },
       {
-        "id": "020BIM013",
-        "name": "ELIZA BASNET",
-        "gender": "female"
+        id: "020BIM013",
+        name: "Eliza Basnet",
+        gender: "female",
       },
       {
-        "id": "020BIM014",
-        "name": "GAURAV SHRESTHA",
-        "gender": "male"
+        id: "020BIM014",
+        name: "Gaurav Shrestha",
+        gender: "male",
       },
       {
-        "id": "020BIM015",
-        "name": "ISHA THAPA",
-        "gender": "female"
+        id: "020BIM015",
+        name: "Isha Thapa",
+        gender: "female",
       },
       {
-        "id": "020BIM016",
-        "name": "ISHIM PANDEY",
-        "gender": "female"
+        id: "020BIM016",
+        name: "Ishim Pandey",
+        gender: "female",
       },
       {
-        "id": "020BIM017",
-        "name": "JA RAJ TULADHAR",
-        "gender": "male"
+        id: "020BIM017",
+        name: "Ja Raj Tuladhar",
+        gender: "male",
       },
       {
-        "id": "020BIM018",
-        "name": "KARUNA SHRESTHA",
-        "gender": "female"
+        id: "020BIM018",
+        name: "Karuna Shrestha",
+        gender: "female",
       },
       {
-        "id": "020BIM019",
-        "name": "KRIPA KAFLE",
-        "gender": "female"
+        id: "020BIM019",
+        name: "Kripa Kafle",
+        gender: "female",
       },
       {
-        "id": "020BIM021",
-        "name": "MELA SHRESTHA",
-        "gender": "female"
+        id: "020BIM021",
+        name: "Mela Shrestha",
+        gender: "female",
       },
       {
-        "id": "020BIM022",
-        "name": "NIKITA SHRESTHA",
-        "gender": "female"
+        id: "020BIM022",
+        name: "Nikita Shrestha",
+        gender: "female",
       },
       {
-        "id": "020BIM023",
-        "name": "NIKITA UPADHYAY",
-        "gender": "female"
+        id: "020BIM023",
+        name: "Nikita Upadhyay",
+        gender: "female",
       },
       {
-        "id": "020BIM024",
-        "name": "NISHAN SHRESTHA",
-        "gender": "male"
+        id: "020BIM024",
+        name: "Nishan Shrestha",
+        gender: "male",
       },
       {
-        "id": "020BIM025",
-        "name": "PALISTHA MAHARJAN",
-        "gender": "female"
+        id: "020BIM025",
+        name: "Palistha Maharjan",
+        gender: "female",
       },
       {
-        "id": "020BIM026",
-        "name": "PALPASA BAJRACHARYA",
-        "gender": "female"
+        id: "020BIM026",
+        name: "Palpasa Bajracharya",
+        gender: "female",
       },
       {
-        "id": "020BIM027",
-        "name": "PRAGYA MAHARJAN",
-        "gender": "female"
+        id: "020BIM027",
+        name: "Pragya Maharjan",
+        gender: "female",
       },
       {
-        "id": "020BIM028",
-        "name": "PRAJWAL RAWAL",
-        "gender": "male"
+        id: "020BIM028",
+        name: "Prajwal Rawal",
+        gender: "male",
       },
       {
-        "id": "020BIM029",
-        "name": "PRASHANT BHUSAL",
-        "gender": "male"
+        id: "020BIM029",
+        name: "Prashant Bhusal",
+        gender: "male",
       },
       {
-        "id": "020BIM030",
-        "name": "PRATIKSHYA RAI",
-        "gender": "female"
+        id: "020BIM030",
+        name: "Pratikshya Rai",
+        gender: "female",
       },
       {
-        "id": "020BIM031",
-        "name": "PRATYUSH KAPHLE",
-        "gender": "male"
+        id: "020BIM031",
+        name: "Pratyush Kaphle",
+        gender: "male",
       },
       {
-        "id": "020BIM032",
-        "name": "PURNIMA GHORASINI",
-        "gender": "female"
+        id: "020BIM032",
+        name: "Purnima Ghorasini",
+        gender: "female",
       },
       {
-        "id": "020BIM033",
-        "name": "RANJAN POUDEL",
-        "gender": "male"
+        id: "020BIM033",
+        name: "Ranjan Poudel",
+        gender: "male",
       },
       {
-        "id": "020BIM034",
-        "name": "REEF DANGOL",
-        "gender": "male"
+        id: "020BIM034",
+        name: "Reef Dangol",
+        gender: "male",
       },
       {
-        "id": "020BIM035",
-        "name": "ROHAN TAJA",
-        "gender": "male"
+        id: "020BIM035",
+        name: "Rohan Taja",
+        gender: "male",
       },
       {
-        "id": "020BIM036",
-        "name": "ROJINA CHAUHAN",
-        "gender": "female"
+        id: "020BIM036",
+        name: "Rojina Chauhan",
+        gender: "female",
       },
       {
-        "id": "020BIM037",
-        "name": "RUCHI UDAS",
-        "gender": "female"
+        id: "020BIM037",
+        name: "Ruchi Udas",
+        gender: "female",
       },
       {
-        "id": "020BIM038",
-        "name": "SAGAR PURKUTI",
-        "gender": "male"
+        id: "020BIM038",
+        name: "Sagar Purkuti",
+        gender: "male",
       },
       {
-        "id": "020BIM039",
-        "name": "SAGUN BAHADUR PRADHAN",
-        "gender": "male"
+        id: "020BIM039",
+        name: "Sagun Bahadur Pradhan",
+        gender: "male",
       },
       {
-        "id": "020BIM040",
-        "name": "SAKSHYAM SINGH",
-        "gender": "male"
+        id: "020BIM040",
+        name: "Sakshyam Singh",
+        gender: "male",
       },
       {
-        "id": "020BIM041",
-        "name": "SAMBRIDHI NIRAULA",
-        "gender": "female"
+        id: "020BIM041",
+        name: "Sambridhi Niraula",
+        gender: "female",
       },
       {
-        "id": "020BIM042",
-        "name": "SAMYUKTA SHAKYA",
-        "gender": "female"
+        id: "020BIM042",
+        name: "Samyukta Shakya",
+        gender: "female",
       },
       {
-        "id": "020BIM043",
-        "name": "SARIKA PANDEY",
-        "gender": "female"
+        id: "020BIM043",
+        name: "Sarika Pandey",
+        gender: "female",
       },
       {
-        "id": "020BIM044",
-        "name": "SATVIKA SHAH",
-        "gender": "female"
+        id: "020BIM044",
+        name: "Satvika Shah",
+        gender: "female",
       },
       {
-        "id": "020BIM045",
-        "name": "SHASHANK ACHARYA",
-        "gender": "male"
+        id: "020BIM045",
+        name: "Shashank Acharya",
+        gender: "male",
       },
       {
-        "id": "020BIM047",
-        "name": "SHREYA SHRESTHA",
-        "gender": "female"
+        id: "020BIM047",
+        name: "Shreya Shrestha",
+        gender: "female",
       },
       {
-        "id": "020BIM048",
-        "name": "SHREYESKA SILWAL",
-        "gender": "female"
+        id: "020BIM048",
+        name: "Shreyeska Silwal",
+        gender: "female",
       },
       {
-        "id": "020BIM049",
-        "name": "SHRISTI ACHARYA",
-        "gender": "female"
+        id: "020BIM049",
+        name: "Shristi Acharya",
+        gender: "female",
       },
       {
-        "id": "020BIM050",
-        "name": "SHUBHANGA NEPAL",
-        "gender": "male"
+        id: "020BIM050",
+        name: "Shubhanga Nepal",
+        gender: "male",
       },
       {
-        "id": "020BIM051",
-        "name": "SMARIKA NIROULA",
-        "gender": "female"
+        id: "020BIM051",
+        name: "Smarika Niroula",
+        gender: "female",
       },
       {
-        "id": "020BIM052",
-        "name": "SRIJAN AYER",
-        "gender": "male"
+        id: "020BIM052",
+        name: "Srijan Ayer",
+        gender: "male",
       },
       {
-        "id": "020BIM054",
-        "name": "SUJAL MANANDHAR",
-        "gender": "male"
+        id: "020BIM054",
+        name: "Sujal Manandhar",
+        gender: "male",
       },
       {
-        "id": "020BIM056",
-        "name": "SURYAM THAPA",
-        "gender": "male"
+        id: "020BIM056",
+        name: "Suryam Thapa",
+        gender: "male",
       },
       {
-        "id": "020BIM057",
-        "name": "SUSHANT MAHARJAN",
-        "gender": "male"
+        id: "020BIM057",
+        name: "Sushant Maharjan",
+        gender: "male",
       },
       {
-        "id": "020BIM058",
-        "name": "SUSHANT POUDEL",
-        "gender": "male"
+        id: "020BIM058",
+        name: "Sushant Poudel",
+        gender: "male",
       },
       {
-        "id": "020BIM059",
-        "name": "SUYAN RATNA TULADHAR",
-        "gender": "male"
+        id: "020BIM059",
+        name: "Suyan Ratna Tuladhar",
+        gender: "male",
       },
       {
-        "id": "020BIM060",
-        "name": "SWOPNIL UPRETI",
-        "gender": "male"
+        id: "020BIM060",
+        name: "Swopnil Upreti",
+        gender: "male",
       },
       {
-        "id": "020BIM061",
-        "name": "TISA BAJRACHARYA",
-        "gender": "female"
+        id: "020BIM061",
+        name: "Tisa Bajracharya",
+        gender: "female",
       },
       {
-        "id": "020BIM062",
-        "name": "TISA PALPASA TULADHAR",
-        "gender": "female"
+        id: "020BIM062",
+        name: "Tisa Palpasa Tuladhar",
+        gender: "female",
       },
       {
-        "id": "020BIM063",
-        "name": "UJEN SUNDAR TULADHAR",
-        "gender": "male"
+        id: "020BIM063",
+        name: "Ujen Sundar Tuladhar",
+        gender: "male",
       },
       {
-        "id": "020BIM064",
-        "name": "UTSAV SHAKYA",
-        "gender": "male"
+        id: "020BIM064",
+        name: "Utsav Shakya",
+        gender: "male",
       },
       {
-        "id": "020BIM065",
-        "name": "YACHU RAJBAHAK",
-        "gender": "female"
+        id: "020BIM065",
+        name: "Yachu Rajbahak",
+        gender: "female",
       },
       {
-        "id": "020BIM067",
-        "name": "ANUSKA DAHAL",
-        "gender": "female"
-      }
-    ]
-  }
+        id: "020BIM067",
+        name: "Anuska Dahal",
+        gender: "female",
+      },
+    ],
+  };
 
   const semestersData = {
-    "status": 200,
-    "semesters": {
-      "fifth": [
+    status: 200,
+    semesters: {
+      fifth: [
         {
-          "code": "aiw",
-          "fullName": "Advance Internetworking",
-          "teacher": "Mr. SANJAY KUMAR YADAV"
+          code: "aiw",
+          fullName: "Advance Internetworking",
+          teacher: "Mr. Sanjay Kumar Yadav",
         },
         {
-          "code": "java",
-          "fullName": "Java Programming-II",
-          "teacher": "Mr. RAMESH SHAHI"
+          code: "java",
+          fullName: "Java Programming-II",
+          teacher: "Mr. Ramesh Shahi",
         },
         {
-          "code": "cg",
-          "fullName": "Computer Graphics",
-          "teacher": "Mr. GANESH YOGI"
-        }
+          code: "cg",
+          fullName: "Computer Graphics",
+          teacher: "Mr. Ganesh Yogi",
+        },
       ],
-      "sixth": [
+      sixth: [
         {
-          "code": "cyber",
-          "fullName": "Cyber Security",
-          "teacher": "Mr. GANESH YOGI"
+          code: "cyber",
+          fullName: "Cyber Security",
+          teacher: "Mr. Ganesh Yogi",
         },
         {
-          "code": "se",
-          "fullName": "Software Engineering",
-          "teacher": "Mr. GANESH YOGI"
-        }
-      ]
-    }
-  }
-  return {studentsData, semestersData};
+          code: "se",
+          fullName: "Software Engineering",
+          teacher: "Mr. Ganesh Yogi",
+        },
+      ],
+    },
+  };
+
+  return { studentsData, semestersData };
 };
 
 export default data;

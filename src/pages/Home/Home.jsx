@@ -119,7 +119,7 @@ const Home = () => {
     // console.log(data.labnumber)
 
     // validate labnumber
-    console.log(data.sub)
+    // console.log(data.sub)
     if(data.subject != "cg"){
       if (data.labnumber == "") {
         setShowPopup(true);
