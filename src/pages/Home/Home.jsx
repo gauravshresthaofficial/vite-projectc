@@ -1,7 +1,9 @@
 // import React from "react"
 import axios from "axios";
 import "./Home.css";
-import { useEffect, useState } from "react";
+import CustomDropdown from "../../components/CustomDropdown";
+// import Popup from "../../components/popup/Popup";
+import { useEffect, useRef, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import generateDocument from "../CreateDocx/generateDocument";
 import data from "../../assets/data";
@@ -11,7 +13,11 @@ const Home = () => {
   const [fifthSubjects, setFifthSubjects] = useState([]);
   const [sixthSubjects, setSixthSubjects] = useState([]);
   const [selectedSemester, setSelectedSemester] = useState("fifth"); // Initialize to "fifth"
-  const {semestersData, studentsData} = data()
+  const { semestersData, studentsData } = data();
+  const [showPopup, setShowPopup] = useState(false);
+  const labNumberRef = useRef(null);
+  const [isValidate, setIsValidate] = useState(true);
+  const [hideLabNumberInput, setHideLabNumberInput] = useState(false)
 
   // api call here for student details
   const fetchDetails = async () => {
@@ -19,14 +25,14 @@ const Home = () => {
       // const response = await axios.get(
       //   "http://saurav1014.mooo.com/api/nameList/nameLists.php"
       // );
-      const response = studentsData
+      const response = studentsData;
       if (response.status == 200) {
         // console.log(response.data)
         setDetails(response.details);
       }
     } catch (error) {
       alert("Something is wrong!");
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -36,7 +42,7 @@ const Home = () => {
       // const response = await axios.get(
       //   "http://saurav1014.mooo.com/api/semesters/semesters.php"
       // );
-      const response = semestersData
+      const response = semestersData;
       if (response.status == 200) {
         setSemesters(response.semesters);
         setFifthSubjects(response.semesters.fifth);
@@ -51,7 +57,6 @@ const Home = () => {
     fetchDetails();
     fetchSubjects();
   }, []);
-  // console.log(details);
   //   console.log(semesters);
   // console.log(fifthSubjects);
   //   console.log(sixthSubjects);
@@ -59,7 +64,18 @@ const Home = () => {
   //function to handle semester change
   const handleSemesterChange = (event) => {
     setSelectedSemester(event.target.value);
+    setHideLabNumberInput(false);
   };
+
+  //function to hide the lab number input
+  const showLabNumberInput = (e) => {
+    if(e.target.value == "cg"){
+      setHideLabNumberInput(true);
+    }
+    else{
+      setHideLabNumberInput(false);
+    }
+  }
 
   // function to generate the subject radio
   const subjectRadio = (subjectLists) => {
@@ -74,6 +90,7 @@ const Home = () => {
           id={subjectList.code}
           type="radio"
           name="subject"
+          onChange={showLabNumberInput}
           defaultChecked={index === 0}
         />
         <label
@@ -89,12 +106,41 @@ const Home = () => {
   // const navigate = useNavigate();
   const handleFormData = async (e) => {
     e.preventDefault();
+    setIsValidate(false);
+    setShowPopup(false);
+    // Reset data to an empty object
+    var data = {};
+
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
+    data.labnumber = "";
+    data = Object.fromEntries(formData);
 
-    // Find the corresponding student details based on the selected name
-    const foundStudent = details.find((student) => student.name === data.name);
+    // console.log(data.labnumber)
 
+    // validate labnumber
+    console.log(data.sub)
+    if(data.subject != "cg"){
+      if (data.labnumber == "") {
+        setShowPopup(true);
+        setIsValidate(false);
+        labNumberRef.current.focus();
+        return
+      } else {
+        setIsValidate(true);
+      }
+    }
+    else{
+      setIsValidate(true)
+    }
+    // console.log(data.labnumber);
+    // console.log(isValidate);
+    // console.log(data);
+    // Find the corresponding student  details based on the selected name
+    const foundStudent = details.find(
+      (student) => student.name.toLowerCase() === data.name.toLowerCase()
+    );
+
+    // console.log(foundStudent);
     if (foundStudent) {
       // Update the data object with the found student's details
       data.rollnumber = foundStudent.id;
@@ -134,15 +180,21 @@ const Home = () => {
         data.teacherName = foundSubject.teacher;
       }
 
-      // console.log(data);
+      // console.log(isValidate);
 
       // Call the function to generate the document
-      generateDocument(data);
+      // if (isValidate) {
+        // console.log(generateDocument(data));
+        // setShowPopup(true);
+        generateDocument(data);
+      // }
     }
   };
 
   return (
     <>
+      {/* {showPopup ? <Popup /> : ""} */}
+
       <div className="flex justify-center items-center h-screen bg-slate-100">
         <form
           onSubmit={handleFormData}
@@ -193,15 +245,30 @@ const Home = () => {
 
           <div className="form-group flex h-12 items-center w-full pt-2 px-2">
             <label className="w-1/5 label">Name:</label>
-            <select
+            {/* <select
               id="name"
               name="name"
-              className="shadow-sm outline-0 form-input flex-grow px-4 h-10 border rounded-lg text-black font-normal font-lg"
+              className="shadow-sm outline-0 form-input flex-grow px-1 h-10 border rounded-lg text-black font-normal font-lg"
             >
-              {details.map((detail) => (
-                <option key={detail.name}>{detail.name}</option>
+              {details.map((detail, index) => (
+                <option
+                  key={detail.name}
+                  className={`${
+                    index === detail.length - 1 ? "border-b-0" : "border-b"
+                  } py-4 `}
+                  style={{
+                    color: "blue",
+                    backgroundColor: "lightgray",
+                    fontSize: "16px",
+                    padding: "5px",
+                    border: "1px solid gray",
+                  }}
+                >
+                  {detail.name}
+                </option>
               ))}
-            </select>
+            </select> */}
+            <CustomDropdown options={studentsData.details} />
           </div>
 
           <div className="flex h-12 items-center w-full pt-2 px-2">
@@ -212,26 +279,31 @@ const Home = () => {
               selectedSemester === "fifth" ? fifthSubjects : sixthSubjects
             )}
           </div>
-          <div className="form-group flex h-12 items-center w-full pt-2 px-2">
+          <div className={`${hideLabNumberInput ? "hidden" : ""} form-group flex h-12 items-center w-full pt-2 px-2`}>
             `
             <label className="w-1/5 label" htmlFor="labnumber">
               Lab no:
             </label>
             <input
-              className="shadow-sm form-input flex-grow border border-gray-300 h-10 rounded-sm hover:border hover:border-slate-200 px-2 outline-0 focus:ring focus:ring-slate-100"
+              className="shadow-sm form-input flex-grow border border-gray-300 h-10 rounded-lg hover:border hover:border-slate-200 px-2 outline-0 focus:ring focus:ring-slate-100"
               type="number"
               name="labnumber"
               id="labnumber"
               placeholder="Enter Lab number"
-              autoComplete="false"
-              required
+              autoComplete="off"
+              ref={labNumberRef}
             />
           </div>
+          {showPopup && (
+            <div className="popup">
+              <p>Please enter a lab number.</p>
+            </div>
+          )}
 
           <div className="flex justify-end items-center pr-2">
             <button
-              data-modal-toggle="popup-modal"
-              className="group relative overflow-hidden text-center font-normal bg-[#2856fb] text-white rounded-lg py-2 px-4 my-2 shadow-lg hover:scale-95"
+              // data-modal-toggle="popup-modal"
+              className="group relative z-100 overflow-hidden text-center font-normal bg-[#2856fb] text-white rounded-lg py-2 px-4 my-2 shadow-lg hover:scale-95"
               type="submit"
               id="submitBtn"
             >

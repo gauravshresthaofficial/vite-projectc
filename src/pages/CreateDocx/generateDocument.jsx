@@ -8,8 +8,9 @@ function loadFile(url, callback) {
 }
 
 const generateDocument = (data) => {
-  // alert("YES")
-  loadFile("/template2.docx", function (error, content) {
+  // alert("YES");
+  // console.log(data.fullSubjectName)
+  loadFile(data.fullSubjectName == "Computer Graphics" ? "/cgFrontpage.docx" : "/template2.docx", function (error, content) {
     if (error) {
       throw error;
     }
@@ -42,7 +43,9 @@ const generateDocument = (data) => {
       // The blob has content and is of the correct type
       // Generate a unique timestamp for the file name
       const timestamp = Date.now();
-      const docxFileName = `${getFirstName(data.name).toLowerCase()}_${data.subject.toUpperCase()}_${
+      const docxFileName = `${getFirstName(
+        data.name
+      ).toLowerCase()}_${data.subject.toUpperCase()}_${
         data.labnumber
       }_${timestamp}.docx`;
       const capitalizedFileName =
@@ -50,6 +53,8 @@ const generateDocument = (data) => {
 
       // Use the FileSaver library to trigger the download
       saveAs(blob, capitalizedFileName);
+      document.getElementById("labnumber").value = "";
+      return("generated")
     } else {
       // The blob is empty or not the expected type
     }
