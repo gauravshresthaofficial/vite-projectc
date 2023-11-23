@@ -1,12 +1,14 @@
 // import React from "react"
 import axios from "axios";
 import "./Home.css";
+import { saveAs } from "file-saver";
 import CustomDropdown from "../../components/CustomDropdown";
 // import Popup from "../../components/popup/Popup";
 import { useEffect, useRef, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import generateDocument from "../CreateDocx/generateDocument";
 import data from "../../assets/data";
+import DownloadPopup from "../../components/DownloadPopup";
 const Home = () => {
   const [details, setDetails] = useState([]);
   const [semesters, setSemesters] = useState([]);
@@ -17,8 +19,12 @@ const Home = () => {
   const [showPopup, setShowPopup] = useState(false);
   const labNumberRef = useRef(null);
   const [isValidate, setIsValidate] = useState(true);
-  const [hideLabNumberInput, setHideLabNumberInput] = useState(false)
-
+  const [hideLabNumberInput, setHideLabNumberInput] = useState(false);
+  const [ConfirmPopup, setConfirmPopup] = useState(false);
+  const [documentDetails, setDocumentDetails] = useState({
+    blob: null,
+    capitalizedFileName: "",
+  });
   // api call here for student details
   const fetchDetails = async () => {
     try {
@@ -65,18 +71,17 @@ const Home = () => {
   const handleSemesterChange = (event) => {
     setSelectedSemester(event.target.value);
     setHideLabNumberInput(false);
-    setShowPopup(false)
+    setShowPopup(false);
   };
 
   //function to hide the lab number input
   const showLabNumberInput = (e) => {
-    if(e.target.value == "cg"){
+    if (e.target.value == "cg") {
       setHideLabNumberInput(true);
-    }
-    else{
+    } else {
       setHideLabNumberInput(false);
     }
-  }
+  };
 
   // function to generate the subject radio
   const subjectRadio = (subjectLists) => {
@@ -120,18 +125,18 @@ const Home = () => {
 
     // validate labnumber
     // console.log(data.sub)
-    if(data.subject != "cg"){
+    if (data.subject != "cg") {
       if (data.labnumber == "") {
         setShowPopup(true);
         setIsValidate(false);
         labNumberRef.current.focus();
-        return
+        return;
       } else {
         setIsValidate(true);
       }
-    }
-    else{
-      setIsValidate(true)
+    } else {
+      data.labnumber = "";
+      setIsValidate(true);
     }
     // console.log(data.labnumber);
     // console.log(isValidate);
@@ -185,17 +190,65 @@ const Home = () => {
 
       // Call the function to generate the document
       // if (isValidate) {
-        // console.log(generateDocument(data));
-        // setShowPopup(true);
-        generateDocument(data);
+      // console.log(generateDocument(data));
+      // setShowPopup(true);
+      // generateDocument(data);
       // }
+
+      try {
+        const result = await generateDocument(data);
+        const { blob, capitalizedFileName } = result;
+
+        // Set the state with the obtained values
+        setDocumentDetails({
+          blob,
+          capitalizedFileName,
+        });
+
+        setConfirmPopup(true);
+        // saveAs(blob, capitalizedFileName)
+        console.log("Blob:", blob);
+        console.log("Capitalized FileName:", capitalizedFileName);
+
+        // Now you can use blob and capitalizedFileName as needed
+      } catch (error) {
+        console.error("Error generating document:", error);
+      }
     }
+  };
+
+  const downloadBtn = () => {
+    saveAs(documentDetails.blob, documentDetails.capitalizedFileName);
+    setConfirmPopup(false);
+    resetForm();
+  };
+  const createNewBtn = () => {
+    setConfirmPopup(false);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    // Reset the state variables that control the form
+    setDocumentDetails({
+      blob: null,
+      capitalizedFileName: "",
+    });
+    labNumberRef.current.value = "";
+    // ... Clear other input fields as needed
+
+    // Reload the page
+    window.location.reload();
+    // Clear input fields (if using controlled components)
   };
 
   return (
     <>
       {/* {showPopup ? <Popup /> : ""} */}
-
+      {ConfirmPopup ? (
+        <DownloadPopup downloadBtn={downloadBtn} createNewBtn={createNewBtn} />
+      ) : (
+        ""
+      )}
       <div className="flex justify-center items-center h-screen bg-slate-100">
         <form
           onSubmit={handleFormData}
@@ -280,7 +333,11 @@ const Home = () => {
               selectedSemester === "fifth" ? fifthSubjects : sixthSubjects
             )}
           </div>
-          <div className={`${hideLabNumberInput ? "hidden" : ""} form-group flex h-12 items-center w-full pt-2 px-2`}>
+          <div
+            className={`${
+              hideLabNumberInput ? "hidden" : ""
+            } form-group flex h-12 items-center w-full pt-2 px-2`}
+          >
             `
             <label className="w-1/5 label" htmlFor="labnumber">
               Lab no:
@@ -293,6 +350,7 @@ const Home = () => {
               placeholder="Enter Lab number"
               autoComplete="off"
               ref={labNumberRef}
+              onChange={() => setShowPopup(false)}
             />
           </div>
           {showPopup && (

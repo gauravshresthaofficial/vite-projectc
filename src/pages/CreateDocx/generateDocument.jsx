@@ -3,70 +3,70 @@ import PizZip from "pizzip";
 import PizZipUtils from "pizzip/utils/index.js";
 import Docxtemplater from "docxtemplater";
 
-function loadFile(url, callback) {
-  PizZipUtils.getBinaryContent(url, callback);
-}
+const GenerateDocument = (data) => {
+  return new Promise((resolve, reject) => {
+    const loadFile = (url, callback) => {
+      PizZipUtils.getBinaryContent(url, callback);
+    };
 
-const generateDocument = (data) => {
-  // alert("YES");
-  // console.log(data.fullSubjectName)
-  loadFile(data.fullSubjectName == "Computer Graphics" ? "/cgFrontpage.docx" : "/template2.docx", function (error, content) {
-    if (error) {
-      throw error;
-    }
-    const zip = new PizZip(content);
-    const doc = new Docxtemplater(zip, {
-      paragraphLoop: true,
-      linebreaks: true,
-    });
+    loadFile(
+      data.fullSubjectName === "Computer Graphics"
+        ? "/cgFrontpage.docx"
+        : "/template2.docx",
+      function (error, content) {
+        if (error) {
+          reject(error);
+          return;
+        }
+        const zip = new PizZip(content);
+        const doc = new Docxtemplater(zip, {
+          paragraphLoop: true,
+          linebreaks: true,
+        });
 
-    doc.render({
-      name: data.name,
-      labnumber: data.labnumber,
-      rollno: data.rollnumber,
-      section: data.section,
-      subject: data.fullSubjectName,
-      teacherName: data.teacherName,
-      semester: data.semester + " Semester",
-    });
-    const blob = doc.getZip().generate({
-      type: "blob",
-      mimeType:
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    });
+        doc.render({
+          name: data.name,
+          labnumber: data.labnumber,
+          rollno: data.rollnumber,
+          section: data.section,
+          subject: data.fullSubjectName,
+          teacherName: data.teacherName,
+          semester: data.semester + " Semester",
+        });
 
-    if (
-      blob.size > 0 &&
-      blob.type ===
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ) {
-      // The blob has content and is of the correct type
-      // Generate a unique timestamp for the file name
-      const timestamp = Date.now();
-      const docxFileName = `${getFirstName(
-        data.name
-      ).toLowerCase()}_${data.subject.toUpperCase()}_${
-        data.labnumber
-      }_${timestamp}.docx`;
-      const capitalizedFileName =
-        docxFileName.charAt(0).toUpperCase() + docxFileName.slice(1);
+        const blob = doc.getZip().generate({
+          type: "blob",
+          mimeType:
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        });
 
-      // Use the FileSaver library to trigger the download
-      saveAs(blob, capitalizedFileName);
-      document.getElementById("labnumber").value = "";
-      return("generated")
-    } else {
-      // The blob is empty or not the expected type
-    }
-    function getFirstName(fullName) {
-      const parts = fullName.split(" ");
-      if (parts.length > 0) {
-        return parts[1];
-      } else {
-        return fullName;
+        if (
+          blob.size > 0 &&
+          blob.type ===
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ) {
+          const timestamp = Date.now();
+          const docxFileName = `${getFirstName(
+            data.name
+          ).toLowerCase()}_${data.subject.toUpperCase()}_${
+            data.labnumber
+          }_${timestamp}.docx`;
+          const capitalizedFileName =
+            docxFileName.charAt(0).toUpperCase() + docxFileName.slice(1);
+
+          // saveAs(blob, capitalizedFileName);
+          resolve({ blob, capitalizedFileName });
+        } else {
+          reject(new Error("Invalid blob type or empty blob"));
+        }
       }
-    }
-  });
-};
+    );
 
-export default generateDocument;
+  // Helper function to get the first name
+  const getFirstName = (fullName) => {
+    const parts = fullName.split(" ");
+    return parts.length > 0 ? parts[1] : fullName;
+  };
+  })};
+
+export default GenerateDocument;
