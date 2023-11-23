@@ -58,10 +58,24 @@ const Home = () => {
       alert("Something went wrong!");
     }
   };
+  const handleKeyDown = (event) => {
+    // Check if the pressed key is "Escape"
+    if (event.key === "Escape") {
+      // Hide the download popup
+      setConfirmPopup(false);
+    }
+  };
 
   useEffect(() => {
     fetchDetails();
     fetchSubjects();
+    // Add event listener when the component mounts
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Remove event listener when the component unmounts
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
   //   console.log(semesters);
   // console.log(fifthSubjects);

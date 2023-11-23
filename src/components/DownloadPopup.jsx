@@ -4,7 +4,9 @@ const DownloadPopup = ({ downloadBtn, createNewBtn }) => {
       <div className="w-full h-screen z-10 backdrop-blur-sm bg-slate-500/40  absolute top-0 left-0"></div>
       <div className="absolute z-10 left-[50%] -translate-x-1/2 top-1/2 -translate-y-1/2">
         <div className="w-400 bg-white border border-gray-400 p-6 rounded-md shadow-lg">
-          <h1 className="text-xl my-2 mb-4">Document Successfully Created !!!</h1>
+          <h1 className="text-xl my-2 mb-4">
+            Document Successfully Created !!!
+          </h1>
           <div className="flex justify-around items-center pr-2 flex-row ">
             <button
               className="group relative z-100 overflow-hidden text-center font-normal border border-[#2856fb] bg-[#2856fb] text-white rounded-lg py-2 px-4 my-2 shadow-lg hover:scale-95"
