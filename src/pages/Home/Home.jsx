@@ -1,9 +1,11 @@
-// Home.js
-import React, { useEffect, useRef, useState } from "react";
+// import React from "react"
 import axios from "axios";
 import "./Home.css";
 import { saveAs } from "file-saver";
 import CustomDropdown from "../../components/CustomDropdown";
+// import Popup from "../../components/popup/Popup";
+import { useEffect, useRef, useState } from "react";
+// import { useNavigate } from "react-router-dom";
 import generateDocument from "../CreateDocx/generateDocument";
 import data from "../../assets/data";
 import DownloadPopup from "../../components/DownloadPopup";
@@ -12,7 +14,7 @@ const Home = () => {
   const [semesters, setSemesters] = useState([]);
   const [fifthSubjects, setFifthSubjects] = useState([]);
   const [sixthSubjects, setSixthSubjects] = useState([]);
-  const [selectedSemester, setSelectedSemester] = useState("fifth");
+  const [selectedSemester, setSelectedSemester] = useState("fifth"); // Initialize to "fifth"
   const { semestersData, studentsData } = data();
   const [showPopup, setShowPopup] = useState(false);
   const labNumberRef = useRef(null);
@@ -26,8 +28,12 @@ const Home = () => {
   // api call here for student details
   const fetchDetails = async () => {
     try {
+      // const response = await axios.get(
+      //   "http://saurav1014.mooo.com/api/nameList/nameLists.php"
+      // );
       const response = studentsData;
-      if (response.status === 200) {
+      if (response.status == 200) {
+        // console.log(response.data)
         setDetails(response.details);
       }
     } catch (error) {
@@ -36,10 +42,14 @@ const Home = () => {
     }
   };
 
+  //api call here for semester and subjects details
   const fetchSubjects = async () => {
     try {
+      // const response = await axios.get(
+      //   "http://saurav1014.mooo.com/api/semesters/semesters.php"
+      // );
       const response = semestersData;
-      if (response.status === 200) {
+      if (response.status == 200) {
         setSemesters(response.semesters);
         setFifthSubjects(response.semesters.fifth);
         setSixthSubjects(response.semesters.sixth);
@@ -53,21 +63,25 @@ const Home = () => {
     fetchDetails();
     fetchSubjects();
   }, []);
+  //   console.log(semesters);
+  // console.log(fifthSubjects);
+  //   console.log(sixthSubjects);
 
+  //function to handle semester change
   const handleSemesterChange = (event) => {
     setSelectedSemester(event.target.value);
     setHideLabNumberInput(false);
-    setShowPopup(false)
+    setShowPopup(false);
   };
 
+  //function to hide the lab number input
   const showLabNumberInput = (e) => {
-    if(e.target.value == "cg"){
+    if (e.target.value == "cg") {
       setHideLabNumberInput(true);
-    }
-    else{
+    } else {
       setHideLabNumberInput(false);
     }
-  }
+  };
 
   // function to generate the subject radio
   const subjectRadio = (subjectLists) => {
@@ -100,7 +114,7 @@ const Home = () => {
     e.preventDefault();
     setIsValidate(false);
     setShowPopup(false);
-
+    // Reset data to an empty object
     var data = {};
 
     const formData = new FormData(e.currentTarget);
@@ -111,31 +125,37 @@ const Home = () => {
 
     // validate labnumber
     // console.log(data.sub)
-    if(data.subject != "cg"){
+    if (data.subject != "cg") {
       if (data.labnumber == "") {
         setShowPopup(true);
         setIsValidate(false);
         labNumberRef.current.focus();
-        return
+        return;
       } else {
         setIsValidate(true);
       }
+    } else {
+      data.labnumber = "";
+      setIsValidate(true);
     }
-    else{
-      setIsValidate(true)
-    }
-
+    // console.log(data.labnumber);
+    // console.log(isValidate);
+    // console.log(data);
+    // Find the corresponding student  details based on the selected name
     const foundStudent = details.find(
       (student) => student.name.toLowerCase() === data.name.toLowerCase()
     );
 
+    // console.log(foundStudent);
     if (foundStudent) {
+      // Update the data object with the found student's details
       data.rollnumber = foundStudent.id;
       data.name =
         foundStudent.gender === "male"
           ? `Mr. ${data.name}`
           : `Ms. ${data.name}`;
 
+      // Function to find the section based on the last two digits of the roll number
       const getSection = (rollNumber) => {
         const lastTwoDigits = parseInt(rollNumber.toString().slice(-2));
 
@@ -150,8 +170,10 @@ const Home = () => {
         }
       };
 
+      // Assign the section based on the roll number
       data.section = getSection(data.rollnumber);
 
+      // Determine semester-specific details
       const semesterDetails =
         data.semester === "fifth" ? fifthSubjects : sixthSubjects;
       const foundSubject = semesterDetails.find(
@@ -168,17 +190,65 @@ const Home = () => {
 
       // Call the function to generate the document
       // if (isValidate) {
-        // console.log(generateDocument(data));
-        // setShowPopup(true);
-        generateDocument(data);
+      // console.log(generateDocument(data));
+      // setShowPopup(true);
+      // generateDocument(data);
       // }
+
+      try {
+        const result = await generateDocument(data);
+        const { blob, capitalizedFileName } = result;
+
+        // Set the state with the obtained values
+        setDocumentDetails({
+          blob,
+          capitalizedFileName,
+        });
+
+        setConfirmPopup(true);
+        // saveAs(blob, capitalizedFileName)
+        console.log("Blob:", blob);
+        console.log("Capitalized FileName:", capitalizedFileName);
+
+        // Now you can use blob and capitalizedFileName as needed
+      } catch (error) {
+        console.error("Error generating document:", error);
+      }
     }
+  };
+
+  const downloadBtn = () => {
+    saveAs(documentDetails.blob, documentDetails.capitalizedFileName);
+    setConfirmPopup(false);
+    resetForm();
+  };
+  const createNewBtn = () => {
+    setConfirmPopup(false);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    // Reset the state variables that control the form
+    setDocumentDetails({
+      blob: null,
+      capitalizedFileName: "",
+    });
+
+    // Reload the page
+    window.location.reload();
+    // Clear input fields (if using controlled components)
+    labNumberRef.current.value = "";
+    // ... Clear other input fields as needed
   };
 
   return (
     <>
       {/* {showPopup ? <Popup /> : ""} */}
-
+      {ConfirmPopup ? (
+        <DownloadPopup downloadBtn={downloadBtn} createNewBtn={createNewBtn} />
+      ) : (
+        ""
+      )}
       <div className="flex justify-center items-center h-screen bg-slate-100">
         <form
           onSubmit={handleFormData}
@@ -263,7 +333,11 @@ const Home = () => {
               selectedSemester === "fifth" ? fifthSubjects : sixthSubjects
             )}
           </div>
-          <div className={`${hideLabNumberInput ? "hidden" : ""} form-group flex h-12 items-center w-full pt-2 px-2`}>
+          <div
+            className={`${
+              hideLabNumberInput ? "hidden" : ""
+            } form-group flex h-12 items-center w-full pt-2 px-2`}
+          >
             `
             <label className="w-1/5 label" htmlFor="labnumber">
               Lab no:
@@ -276,6 +350,7 @@ const Home = () => {
               placeholder="Enter Lab number"
               autoComplete="off"
               ref={labNumberRef}
+              onChange={() => setShowPopup(false)}
             />
           </div>
           {showPopup && (
