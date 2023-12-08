@@ -14,7 +14,7 @@ const Home = () => {
   const [semesters, setSemesters] = useState([]);
   const [fifthSubjects, setFifthSubjects] = useState([]);
   const [sixthSubjects, setSixthSubjects] = useState([]);
-  const [selectedSemester, setSelectedSemester] = useState("fifth"); // Initialize to "fifth"
+  const [selectedSemester, setSelectedSemester] = useState("sixth"); // Initialize to "fifth"
   const { semestersData, studentsData } = data();
   const [showPopup, setShowPopup] = useState(false);
   const labNumberRef = useRef(null);

@@ -339,12 +339,12 @@ const data = () => {
         {
           code: "cyber",
           fullName: "Cyber Security",
-          teacher: "Mr. Ganesh Yogi",
+          teacher: "Mr. Anish Shrestha",
         },
         {
           code: "se",
           fullName: "Software Engineering",
-          teacher: "Mr. Ganesh Yogi",
+          teacher: "Mr. Rabin Maharjhan",
         },
       ],
     },
