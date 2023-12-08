@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './CustomDropdown.css';
+import './StudentDropdown.css';
 
-const CustomDropdown = ({ options }) => {
+const StudentDropdown = ({ options }) => {
   const [selectedOption, setSelectedOption] = useState(options[0].name);
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -109,4 +109,4 @@ const CustomDropdown = ({ options }) => {
   );
 };
 
-export default CustomDropdown;
+export default StudentDropdown;

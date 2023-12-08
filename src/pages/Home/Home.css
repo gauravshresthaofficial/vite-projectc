@@ -3,7 +3,7 @@ input:checked+label {
     background-color: #edf0fb;
     box-shadow: rgba(51, 22, 238, 0.2) 0px 2px 8px 0px;
     color: #1342ec;
-    font-weight: 500;
+    font-weight: 600;
     transition: all .3s ease-in-out;
     background-color: white;
 }
@@ -17,8 +17,8 @@ input:checked+label:hover {
 }
 
 input:hover+label {
-    background-color: #d0d9fa;
-    box-shadow: rgba(51, 22, 238, 0.1) 0px 8px 24px;
+    /* background-color: #d0d9fa; */
+    /* box-shadow: rgba(51, 22, 238, 0.1) 0px 8px 24px; */
     transition: all .3s ease-in-out;
     font-weight: bold;
     color: #7b7b7b;
